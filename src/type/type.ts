@@ -4,3 +4,14 @@ export type SignInFormData = {
   email: string;
   password: string;
 };
+
+
+export type CardsData={
+  title:string, 
+  startMonth:string, 
+  duration:string,
+  location:string,
+  format:string,
+  language:string,
+  isFree:boolean
+}
