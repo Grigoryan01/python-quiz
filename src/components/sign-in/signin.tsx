@@ -1,3 +1,5 @@
+"use client";
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationschema } from '../../validation/validation'; 
@@ -52,7 +54,7 @@ const SignInPage = () => {
         Sign In
       </button>
     </form>
-    <p className='mt-4 text-base'>Don't have an account? <a href="#" className='text-cyan-600 no-underline hover:cursor-pointer'>Sign Up</a></p>
+    <p className='mt-4 text-base'>Do not have an account? <a href="#" className='text-cyan-600 no-underline hover:cursor-pointer'>Sign Up</a></p>
     </div>
   );
 };
