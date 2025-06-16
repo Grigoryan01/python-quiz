@@ -1,9 +1,11 @@
+"use client";
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationschema } from '../../validation/validation';
 import { SignInFormData } from '@/type/type';
 
-const SignUp = () => {
+const SignUpPage = () => {
   const {
     register,
     handleSubmit,
@@ -67,4 +69,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;
