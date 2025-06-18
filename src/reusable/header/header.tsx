@@ -8,25 +8,26 @@ import {
 } from '@headlessui/react'
 import {
   Bars3Icon,
-  FolderIcon,
+  BookOpenIcon,
   HomeIcon,
-  UsersIcon,
+  InformationCircleIcon,
+  PhoneIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import PythonIcon from '../../images/icons/python.svg'
 import Image from 'next/image'
 const navigation = [
-  { name: 'Главная', href: '#', icon: HomeIcon, current: true },
-  { name: 'Курсы', href: '#', icon: UsersIcon, current: false },
-  { name: 'Контакты', href: '#', icon: FolderIcon, current: false },
-  { name: 'О нас', href: '#', icon: FolderIcon, current: false },
+  { name: 'Главная', href: '/dashboard/home', icon: HomeIcon, current: true },
+  { name: 'Курсы', href: '/dashboard/courses', icon: BookOpenIcon, current: false },
+  { name: 'Контакты', href: '/dashboard/contact', icon: PhoneIcon, current: false },
+  { name: 'О нас', href: '/dashboard/about', icon: InformationCircleIcon, current: false },
 ]
 
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
-export default function Example() {
+const Navbar=()=> {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   return (
     <>
@@ -62,15 +63,15 @@ export default function Example() {
                               href={item.href}
                               className={classNames(
                                 item.current
-                                  ? 'bg-gray-50 text-indigo-600'
-                                  : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
+                                  ? 'bg-gray-50 text-blue-600'
+                                  : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600',
                                 'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
                               )}
                             >
                               <item.icon
                                 aria-hidden="true"
                                 className={classNames(
-                                  item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                  item.current ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600',
                                   'size-6 shrink-0',
                                 )}
                               />
@@ -83,8 +84,8 @@ export default function Example() {
                  
                 
                   </ul>
-                   <button type='button' className='text-white text-base rounded-md py-2 px-3 mb-4 bg-red-600 hover:cursor-pointer'>Войти</button>
-            <button type='button' className='text-white text-base rounded-md py-2 px-3  bg-sky-600 hover:cursor-pointer'>Регистрация</button>
+                   <button type='button' className=' text-base  border border-blue-600 text-blue-600 hover:bg-blue-50 font-bold px-4 py-2 rounded-md transition-colors duration-200  mb-4 hover:cursor-pointer'>Войти</button>
+                  <button type='button' className='text-white text-base rounded-md font-bold px-4 py-2  bg-blue-600 hover:cursor-pointer hover:bg-blue-700'>Регистрация</button>
                 </nav>
               </div>
             </DialogPanel>
@@ -110,15 +111,15 @@ export default function Example() {
                           href={item.href}
                           className={classNames(
                             item.current
-                              ? 'bg-gray-50 text-indigo-600'
-                              : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
+                              ? 'bg-gray-50 text-blue-600'
+                              : 'text-gray-900 hover:bg-gray-50 hover:text-blue-600',
                             'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
                           )}
                         >
                           <item.icon
                             aria-hidden="true"
                             className={classNames(
-                              item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                              item.current ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600',
                               'size-6 shrink-0',
                             )}
                           />
@@ -127,8 +128,8 @@ export default function Example() {
                       </li>
                     ))}
                   </ul>
-              <button type='button' className='text-white text-base rounded-md py-2 px-3 bg-red-600 hover:cursor-pointer'>Войти</button>
-            <button type='button' className='text-white text-base rounded-md py-2 px-3  bg-sky-600 hover:cursor-pointer'>Регистрация</button>
+              <button type='button' className=' text-base  border border-blue-600 text-blue-600 hover:bg-blue-50 font-bold px-4 py-2 rounded-md transition-colors duration-200  hover:cursor-pointer'>Войти</button>
+            <button type='button' className='text-white text-base rounded-md font-bold px-4 py-2  bg-blue-600 hover:cursor-pointer hover:bg-blue-700'>Регистрация</button>
             </nav>
           </div>
         </div>
@@ -153,3 +154,5 @@ export default function Example() {
     </>
   )
 }
+
+export default Navbar
