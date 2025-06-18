@@ -42,7 +42,7 @@ const Footer=()=> {
   </a>
   </div>
 
-  <p className="text-white font-medium hover:text-blue-400">&copy; {new Date().getFullYear()} Все права защищены.</p>
+  <p className="text-white font-medium hover:text-blue-400">&copy; {currentYear} Все права защищены.</p>
 </footer>
 
   );
