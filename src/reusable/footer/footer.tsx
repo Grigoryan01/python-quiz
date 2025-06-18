@@ -1,22 +1,50 @@
-import TwiiterIcon from '../../images/icons/twitter.svg'
-import  GithubIcon from '../../images/icons/github.svg'
-import LinkedinIcon from '../../images/icons/linkedin.svg'
-import Image from 'next/image';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa'
+
 const Footer=()=> {
      const currentYear = new Date().getFullYear();
   return (
-    <footer className="flex flex-col items-center gap-5 p-5 lg:flex-row lg:justify-between lg:p-12">
-        <ul className='list-unstyled flex flex-col items-center lg:flex-row gap-5'>
-            <li><a href="#" target="_blank" className='no-underline hover:cursor-pointer'>О платформе</a></li>
-            <li><a href="#" target="_blank" className='no-underline hover:cursor-pointer'>Политика конфиденциальности</a></li>
-        </ul>
-        <div className="flex items-center gap-5">
-            <Image src={TwiiterIcon} alt="Twitter" className="w-6 h-6 hover:cursor-pointer" />
-            <Image src={LinkedinIcon} alt="LinkedIn" className="w-6 h-6 hover:cursor-pointer" />
-            <Image src={GithubIcon} alt="Github" className="w-6 h-6 hover:cursor-pointer" />
-        </div>
-      <p>&copy; {currentYear}. All rights reserved.</p>
-    </footer>
+   <footer className="bg-gray-900 px-6 py-8 lg:px-12 flex flex-col items-center gap-6 lg:flex-row lg:justify-between text-sm text-gray-400">
+  <ul className="flex flex-col items-center gap-4 lg:flex-row lg:gap-6">
+    <li>
+      <a
+        href="/dashboard/about"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-white font-medium hover:text-blue-400 hover:cursor-pointer transition-colors duration-200"
+      >
+        О платформе
+      </a>
+    </li>
+    <li>
+      <a
+        href="/dashboard/privacy"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-white font-medium hover:text-blue-400 hover:cursor-pointer transition-colors duration-200"
+      >
+        Политика конфиденциальности
+      </a>
+    </li>
+  </ul>
+
+  <div className="flex items-center gap-4">
+<a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+    <FaFacebookF className="w-6 h-6 text-white hover:text-blue-600 transition duration-200 cursor-pointer" />
+  </a>
+  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+    <FaTwitter className="w-6 h-6 text-white hover:text-blue-600 transition duration-200 cursor-pointer" />
+  </a>
+  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+    <FaLinkedinIn className="w-6 h-6 text-white hover:text-blue-600 transition duration-200 cursor-pointer" />
+  </a>
+  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+    <FaInstagram className="w-6 h-6 text-white hover:text-blue-600 transition duration-200 cursor-pointer" />
+  </a>
+  </div>
+
+  <p className="text-white font-medium hover:text-blue-400">&copy; {currentYear} Все права защищены.</p>
+</footer>
+
   );
 }
 
