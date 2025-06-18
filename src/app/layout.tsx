@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { twMerge } from 'tailwind-merge';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from '../reusable/header/header'
@@ -26,9 +27,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+     <body
+  className={twMerge(
+    'min-h-screen flex flex-col',
+    `${geistSans.variable} ${geistMono.variable} antialiased`
+  )}
+>
       <Header />
          {children}
       <Footer /> 
