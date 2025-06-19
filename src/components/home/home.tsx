@@ -1,23 +1,26 @@
 'use client'
 import Image from 'next/image'
 import PythonIcon from '../../images/icons/python.svg'
+import ProgressIcon from '../../images/photos/progress.png'
+import VictoryIcon from '../../images/photos/victory.png'
+import TargetIcon from '../../images/photos/target.png'
 
 const HomePage = () => {
   const features = [
     {
       title: 'Викторины',
       text: 'Тестируйте свои знания по различным темам с помощью интерактивных викторин.',
-      image: PythonIcon,
+      image: TargetIcon,
     },
     {
       title: 'Прогресс и уровни',
       text: 'Следите за своим развитием, проходите уровни и открывайте новые возможности.',
-      image: PythonIcon,
+      image: ProgressIcon,
     },
     {
       title: 'Таблица лидеров',
       text: 'Соревнуйтесь с другими и поднимайтесь вверх в таблице лидеров.',
-      image: PythonIcon,
+      image: VictoryIcon,
     },
   ]
 
@@ -47,7 +50,7 @@ const HomePage = () => {
         {features.map((feature, index) => (
           <div key={index} className="flex flex-col items-center rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200 bg-white hover:cursor-pointer">
             <div className="bg-blue-100 w-full h-56 flex items-center justify-center p-6">
-              <Image src={feature.image} alt={feature.title} className="w-24 h-24 object-contain" />
+              <Image src={feature.image} alt={feature.title} className="w-28 h-24 object-contain" />
             </div>
             <div className="p-6 text-center flex flex-col gap-3">
               <h3 className="text-xl font-semibold text-gray-800">{feature.title}</h3>
