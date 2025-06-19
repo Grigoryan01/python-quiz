@@ -12,7 +12,7 @@ const SignUpPage = () => {
     formState: { errors },
   } = useForm<SignInFormData>({
     resolver: yupResolver(validationschema),
-    mode:'onSubmit'
+    mode: 'onSubmit',
   });
 
   const onSubmit = (data: SignInFormData) => {
@@ -20,51 +20,70 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className='w-min p-6 shadow-md flex flex-col items-center m-auto bg-white'>
-        <h1 className='text-2xl font-bold lg:text-4xl mb-6'>Sign Up</h1>
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className='flex flex-col items-start gap-1'>
-        <label className='font-medium'>First Name:</label>
-        <input
-          {...register('firstName')}
-          className="w-96 border p-2 rounded focus:outline-none"
-        />
-        {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
-      </div>
-<div className='flex flex-col items-start gap-1'>
-        <label className='font-medium'>Last  Name:</label>
-        <input
-          {...register('lastName')}
-          className="w-96 border p-2 rounded focus:outline-none"
-        />
-        {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
-      </div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-6 bg-white shadow-md rounded">
+        <h1 className="text-2xl lg:text-4xl font-bold mb-6 text-center text-gray-700">Sign Up</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">First Name:</label>
+            <input
+              {...register('firstName')}
+              className="border border-gray-600 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.firstName && (
+              <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+            )}
+          </div>
 
-      <div className='flex flex-col items-start gap-1'>
-        <label className='font-medium'>Email:</label>
-        <input
-          type="email"
-          {...register('email')}
-          className="w-96 border p-2 rounded focus:outline-none"
-        />
-        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
-      </div>
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">Last Name:</label>
+            <input
+              {...register('lastName')}
+              className="border border-gray-600 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.lastName && (
+              <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+            )}
+          </div>
 
-         <div className='flex flex-col items-start gap-1'>
-        <label className='font-medium'>Password:</label>
-        <input
-          type="password"
-          {...register('password')}
-          className="w-96 border p-2 rounded focus:outline-none"
-        />
-        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
-      </div>
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">Email:</label>
+            <input
+              type="email"
+              {...register('email')}
+              className="border border-gray-600 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
+          </div>
 
-      <button type="submit" className="w-full rounded-md text-center font-semibold bg-blue-500 text-white px-4 py-2">
-        Sign In
-      </button>
-    </form>
-    <p className='mt-4 text-base'>Already have an account? <a href="#" className='text-cyan-600 no-underline hover:cursor-pointer'>Sign In</a></p>
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">Password:</label>
+            <input
+              type="password"
+              {...register('password')}
+              className="border border-gray-600 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full rounded-md font-semibold bg-blue-500 text-white px-4 py-2 hover:bg-blue-600 hover:cursor-pointer transition-colors"
+          >
+            Sign Up
+          </button>
+        </form>
+        <p className="mt-4 text-base text-center">
+          Already have an account?{' '}
+          <a href="/dashboard/sign-in" className="text-cyan-600 hover:underline">
+            Sign In
+          </a>
+        </p>
+      </div>
     </div>
   );
 };
