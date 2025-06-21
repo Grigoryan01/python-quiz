@@ -108,7 +108,7 @@ fetch(`http://localhost:5000/api/questions?topic=${encodeURIComponent(topic)}`)
     return (
       <section className="flex-1 p-6 lg:p-10 bg-gray-50 min-h-screen">
         <div className="max-w-3xl mx-auto text-gray-600 font-semibold">
-          Нет вопросов по теме "{topic}"
+          Нет вопросов по теме {topic}
         </div>
       </section>
     );
