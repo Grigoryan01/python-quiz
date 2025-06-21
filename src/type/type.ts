@@ -15,3 +15,9 @@ export type CardsData={
   language:string,
   isFree:boolean
 }
+
+export type Question = {
+  question: string;
+  options: string[];
+  answer: string;
+};
