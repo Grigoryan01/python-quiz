@@ -1,10 +1,20 @@
-from flask import Flask, jsonify, request
+# main.py
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 import mysql.connector
 import json
-from flask_cors import CORS
 
-app = Flask(__name__)
-CORS(app)
+app = FastAPI()
+
+# CORS setup
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Replace with frontend URL in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db_connection():
     return mysql.connector.connect(
@@ -14,28 +24,28 @@ def get_db_connection():
         database="questions"
     )
 
-@app.route('/api/questions')
-def get_questions():
-    topic = request.args.get('topic')
+@app.get("/api/questions")
+def get_questions(topic: str = None):
     if not topic:
-        return jsonify({"error": "Topic is required"}), 400
+        raise HTTPException(status_code=400, detail="Topic is required")
 
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT question, options, answer FROM questions WHERE topic = %s", (topic,))
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT question, options, answer FROM questions WHERE topic = %s", (topic,))
+        rows = cursor.fetchall()
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=500, detail=str(err))
+    finally:
+        if 'cursor' in locals(): cursor.close()
+        if 'conn' in locals(): conn.close()
 
     questions = []
     for row in rows:
         questions.append({
             "question": row["question"],
             "options": json.loads(row["options"]),
-            "answer": row["answer"],
+            "answer": row["answer"]
         })
 
-    return jsonify(questions)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    return JSONResponse(content=questions)
