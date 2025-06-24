@@ -1,11 +1,15 @@
-"use client";
-
+'use client';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationschema } from '../../validation/validation';
 import { SignInFormData } from '@/type/type';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
 
 const SignUpPage = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -15,8 +19,36 @@ const SignUpPage = () => {
     mode: 'onSubmit',
   });
 
-  const onSubmit = (data: SignInFormData) => {
-    console.log('Form data:', data);
+  const onSubmit = async (data: SignInFormData) => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.status === 201) {
+        toast.success('Successfully registered!');
+         localStorage.setItem('user', JSON.stringify(result.user)); 
+  window.dispatchEvent(new Event('storage'));
+
+  setTimeout(() => {
+    router.push('/dashboard/home');
+  }, 1500);
+
+      } else if (response.status === 409) {
+        toast.error('User already exists. Please sign in.');
+      } else {
+        toast.error(result.message || 'Something went wrong.');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      toast.error('Failed to connect to server.');
+    }
   };
 
   return (
@@ -79,7 +111,7 @@ const SignUpPage = () => {
         </form>
         <p className="mt-4 text-base text-center">
           Already have an account?{' '}
-          <a href="/dashboard/sign-in" className="text-cyan-600 hover:underline">
+          <a href="/dashboard/sign-in" className="text-cyan-600 hover:underline hover:cursor-pointer">
             Sign In
           </a>
         </p>

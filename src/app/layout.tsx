@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { twMerge } from 'tailwind-merge';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from '../reusable/header/header'
-import Footer from '../reusable/footer/footer'
+import Header from '../reusable/header/header';
+import Footer from '../reusable/footer/footer';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,15 +29,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-     <body
-  className={twMerge(
-    'min-h-screen flex flex-col',
-    `${geistSans.variable} ${geistMono.variable} antialiased`
-  )}
->
-      <Header />
-         {children}
-      <Footer /> 
+      <body
+        className={twMerge(
+          'min-h-screen flex flex-col',
+          `${geistSans.variable} ${geistMono.variable} antialiased`
+        )}
+      >
+        <Header />
+        {children}
+        <Footer />
+
+        <ToastContainer position="top-right" autoClose={3000} />
       </body>
     </html>
   );
