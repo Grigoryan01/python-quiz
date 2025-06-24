@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { CheckCircle, XCircle, Target } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { CheckCircle, XCircle, Target, Check } from "lucide-react";
 
 interface Question {
   question: string;
@@ -29,6 +29,22 @@ const QuizContent = ({ topic }: QuizContentProps) => {
   const [feedback, setFeedback] = useState<string[]>([]);
   const [score, setScore] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState<boolean>(false);
+  const [userName, setUserName] = useState("Гость");
+  const userRef = useRef<{ email: string; firstName: string; lastName: string } | null>(null);
+
+  useEffect(() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        userRef.current = user;
+        setUserName(`${user.firstName} ${user.lastName}`);
+      }
+    } catch (err) {
+      console.error("Ошибка чтения пользователя из localStorage:", err);
+    }
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -37,23 +53,23 @@ const QuizContent = ({ topic }: QuizContentProps) => {
     setScore(null);
     setFeedback([]);
     setUserAnswers([]);
+    setSaved(false);
 
-fetch(`http://localhost:5000/api/questions?topic=${encodeURIComponent(topic)}`)
-  .then(res => {
-    if (!res.ok) throw new Error(`Ошибка загрузки данных: ${res.status} ${res.statusText}`);
-    return res.json();
-  })
-  .then(data => {
-    setQuestions(data);
-    setUserAnswers(Array(data.length).fill(""));
-    setFeedback(Array(data.length).fill(""));
-  })
-  .catch(err => {
-    console.error(err);
-    setError(err.message);
-  })
-  .finally(() => setLoading(false));
-
+    fetch(`http://localhost:8000/api/questions?topic=${encodeURIComponent(topic)}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`Ошибка загрузки данных: ${res.status} ${res.statusText}`);
+        return res.json();
+      })
+      .then(data => {
+        setQuestions(data);
+        setUserAnswers(Array(data.length).fill(""));
+        setFeedback(Array(data.length).fill(""));
+      })
+      .catch(err => {
+        console.error(err);
+        setError(err.message);
+      })
+      .finally(() => setLoading(false));
   }, [topic]);
 
   const handleSelect = (index: number, answer: string) => {
@@ -76,10 +92,41 @@ fetch(`http://localhost:5000/api/questions?topic=${encodeURIComponent(topic)}`)
 
     setFeedback(newFeedback);
     setScore(totalScore);
+
+    const email = userRef.current?.email;
+
+    if (!email) {
+      console.error("Ошибка: пользователь не авторизован.");
+      return;
+    }
+
+    const payload = {
+      email,
+      course:"Python Basics",
+      score: totalScore
+    };
+
+    fetch("http://localhost:8000/api/update-score", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Ошибка при отправке результатов");
+        return res.json();
+      })
+      .then(() => {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+      })
+      .catch(err => {
+        console.error("Ошибка при обновлении счёта:", err);
+      });
   };
 
+  // --- UI ---
+
   if (loading) {
-    // Показываем skeleton
     return (
       <section className="flex-1 p-6 lg:p-10 bg-gray-50 min-h-screen">
         <div className="max-w-3xl mx-auto">
@@ -114,7 +161,6 @@ fetch(`http://localhost:5000/api/questions?topic=${encodeURIComponent(topic)}`)
     );
   }
 
-  // Рендерим вопросы
   return (
     <section className="flex-1 p-6 lg:p-10 bg-gray-50 min-h-screen">
       <div className="max-w-3xl mx-auto">
@@ -147,12 +193,12 @@ fetch(`http://localhost:5000/api/questions?topic=${encodeURIComponent(topic)}`)
                 <div className="mt-4 flex items-start gap-2">
                   {userAnswers[index] === questions[index].answer ? (
                     <>
-                      <CheckCircle className="w-5 h-5 text-green-600 " />
+                      <CheckCircle className="w-5 h-5 text-green-600" />
                       <p className="font-medium text-green-600">{feedback[index]}</p>
                     </>
                   ) : (
                     <>
-                      <XCircle className="w-5 h-5 text-red-600 " />
+                      <XCircle className="w-5 h-5 text-red-600" />
                       <p className="font-medium text-red-600">{feedback[index]}</p>
                     </>
                   )}
@@ -172,11 +218,13 @@ fetch(`http://localhost:5000/api/questions?topic=${encodeURIComponent(topic)}`)
         {score !== null && (
           <div className="mt-6 text-xl font-semibold text-gray-800 flex items-center gap-2">
             <Target className="w-6 h-6 text-blue-600" />
-            Ваш счёт:{" "}
-            <span className="text-blue-600 font-bold">
-              {score}
-            </span>{" "}
-            из {questions.length}
+            Ваш счёт: <span className="text-blue-600 font-bold">{score}</span> из {questions.length}
+          </div>
+        )}
+
+        {saved && (
+          <div className="mt-4 flex items-center gap-2 text-green-600 text-base font-medium">
+            <Check className="w-5 h-5" /> Баллы сохранены
           </div>
         )}
       </div>
