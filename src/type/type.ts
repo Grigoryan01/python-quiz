@@ -21,3 +21,9 @@ export type Question = {
   options: string[];
   answer: string;
 };
+
+
+export type LoginFormData = {
+  email: string;
+  password: string;
+};
