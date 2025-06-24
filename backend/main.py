@@ -7,14 +7,16 @@ import mysql.connector
 
 app = FastAPI()
 
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=["*"],  # You can limit this to specific origins in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Database connection
 def get_db_connection():
     return mysql.connector.connect(
         host="localhost",
@@ -23,6 +25,7 @@ def get_db_connection():
         database="leaders"
     )
 
+# Data models
 class RegisterUser(BaseModel):
     firstName: str
     lastName: str
@@ -33,11 +36,13 @@ class LoginUser(BaseModel):
     email: str
     password: str
 
+# Register endpoint
 @app.post("/api/register")
 def register_user(user: RegisterUser):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
+    # Check if user already exists
     cursor.execute("SELECT * FROM auth_users WHERE email = %s", (user.email,))
     existing_user = cursor.fetchone()
     if existing_user:
@@ -45,6 +50,7 @@ def register_user(user: RegisterUser):
         conn.close()
         raise HTTPException(status_code=409, detail="User already exists")
 
+    # Insert into auth_users table
     hashed_password = generate_password_hash(user.password)
     cursor.execute("""
         INSERT INTO auth_users (first_name, last_name, email, password)
@@ -53,6 +59,14 @@ def register_user(user: RegisterUser):
     conn.commit()
 
     user_id = cursor.lastrowid
+
+    # Insert into leaderboard table with 0 score
+    full_name = f"{user.firstName} {user.lastName}"
+    cursor.execute("""
+        INSERT INTO leaderboard (name, course, score)
+        VALUES (%s, %s, %s)
+    """, (full_name, "Python Basics", 0))
+    conn.commit()
 
     cursor.close()
     conn.close()
@@ -67,6 +81,7 @@ def register_user(user: RegisterUser):
         }
     }, status_code=201)
 
+# Login endpoint
 @app.post("/api/login")
 def login_user(user: LoginUser):
     conn = get_db_connection()
@@ -94,6 +109,7 @@ def login_user(user: LoginUser):
         }
     }, status_code=200)
 
+# Leaderboard endpoint
 @app.get("/api/leaderboard")
 def read_leaderboard():
     db = get_db_connection()
