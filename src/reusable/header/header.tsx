@@ -19,10 +19,10 @@ import { toast } from 'react-toastify'
 
 
 const navigation = [
-  { name: 'Главная', href: '/dashboard/home', current: true },
-  { name: 'Курсы', href: '/dashboard/courses', current: false },
-  { name: 'Контакты', href: '/dashboard/contact', current: false },
-  { name: 'О нас', href: '/dashboard/about', current: false },
+  { name: 'Главная', href: '/dashboard/home' },
+  { name: 'Курсы', href: '/dashboard/courses' },
+  { name: 'Контакты', href: '/dashboard/contact' },
+  { name: 'О нас', href: '/dashboard/about' },
 ];
 
 function classNames(...classes: string[]) {

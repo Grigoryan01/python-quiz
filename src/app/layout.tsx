@@ -35,8 +35,13 @@ export default function RootLayout({
           `${geistSans.variable} ${geistMono.variable} antialiased`
         )}
       >
-        <Header />
-        {children}
+          <Header />
+        
+        {/* Обертываем основной контент в main с flex-1 */}
+        <main className="flex-1">
+          {children}
+        </main>
+
         <Footer />
 
         <ToastContainer position="top-right" autoClose={3000} />
