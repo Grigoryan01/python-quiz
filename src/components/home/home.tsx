@@ -33,7 +33,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col items-center gap-16 px-6 py-12 lg:px-24">
       {/* Hero Section */}
-      <div className="flex flex-col items-center gap-8 md:flex-row lg:gap-16 w-full">
+      <div className="flex flex-col items-center justify-center gap-8 md:flex-row lg:gap-16 w-full">
         <div className="flex flex-col items-center md:items-start gap-6 max-w-xl">
           <p className="text-3xl lg:text-5xl font-semibold leading-snug text-center md:text-left text-gray-900">
             Изучай Python шаг за шагом с викторинами и достижениями
