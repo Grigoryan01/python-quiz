@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { UserCircle } from "lucide-react";
-
-
+import { useEffect, useState } from "react";
 
 const courses = [
   {
@@ -15,13 +14,26 @@ const courses = [
 
 const ProgressDashboard = () => {
   const router = useRouter();
+    const [firstName, setFirstName] = useState<string | null>(null)
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user')
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData)
+        setFirstName(parsed.firstName || null)
+      } catch (error) {
+        console.error('Ошибка парсинга user из localStorage:', error)
+      }
+    }
+  }, [])
 
   return (
     <div className="p-6 space-y-6 text-black">
       <div className="flex items-center gap-4">
         <UserCircle className="w-10 h-10 text-blue-600" />
         <div>
-          <h2 className="text-xl font-semibold">Elmira</h2>
+          <h2 className="text-xl font-semibold"> {firstName ? firstName : 'Username'}</h2>
         </div>
       </div>
 
