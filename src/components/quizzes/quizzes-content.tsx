@@ -130,6 +130,7 @@ const QuizContent = ({ topic }: QuizContentProps) => {
     return (
       <section className="flex-1 p-6 lg:p-10 bg-gray-50 min-h-screen">
         <div className="max-w-3xl mx-auto">
+          <p className="text-lg hidden">Привет, {userName}!</p>
           <h2 className="text-2xl lg:text-4xl font-bold mb-8 text-gray-800">{topic}</h2>
           <div className="space-y-8">
             <SkeletonQuestion />
