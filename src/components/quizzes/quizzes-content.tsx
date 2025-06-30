@@ -1,15 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { CheckCircle, XCircle, Target, Check } from "lucide-react";
+import { Question, QuizContentProps } from "../../type/type";
 
-interface Question {
-  question: string;
-  options: string[];
-  answer: string;
-}
-
-interface QuizContentProps {
-  topic: string;
-}
 
 const SkeletonQuestion = () => (
   <div className="bg-white rounded-2xl shadow p-6 animate-pulse space-y-4">
